@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ一覧 - 日本大学理工学部</title>
+    <meta name="description" content="日本大学理工学部へのお問い合わせ一覧ページです。各種お問い合わせ先の詳細情報とお問い合わせフォームをご案内します。">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- Google Fonts - Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-info">
+                    <span><i class="fas fa-phone"></i> 03-3259-0211</span>
+                </div>
+                <div class="header-top-links">
+                    <a href="/student/">在学生の方</a>
+                    <a href="/parents/">保護者の方</a>
+                    <a href="/partner/">企業・研究者の方</a>
+                    <a href="/contact/inquiry.html" class="active">お問い合わせ</a>
+                    <a href="#" class="language-switch">English</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="logo">
+                    <a href="../index.html">
+                        <img src="../assets/images/logo.png" alt="日本大学理工学部ロゴ">
+                    </a>
+                    <div class="logo-text">
+                        <span class="university-name">日本大学</span>
+                        <span class="college-name">理工学部</span>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <form action="/search" method="get">
+                        <input type="text" name="q" placeholder="サイト内検索">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container nav-container">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="main-nav">
+                    <li class="dropdown">
+                        <a href="/prospective/">入学案内</a>
+                        <div class="dropdown-content">
+                            <a href="/prospective/exam.html">入試情報</a>
+                            <a href="/prospective/opencampus.html">オープンキャンパス</a>
+                            <a href="/prospective/scholarship.html">奨学金</a>
+                            <a href="/prospective/faq.html">よくある質問</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="/faculty/">学部紹介・学科情報</a>
+                        <div class="dropdown-content">
+                            <a href="/faculty/departments/architecture.html">建築学科</a>
+                            <a href="/faculty/departments/mechanical.html">機械工学科</a>
+                            <a href="/faculty/departments/civil.html">土木工学科</a>
+                            <a href="/faculty/departments/electrical.html">電気工学科</a>
+                            <a href="/faculty/departments/electronics.html">電子工学科</a>
+                            <a href="/faculty/departments/materials.html">物質応用化学科</a>
+                            <a href="/faculty/departments/physics.html">物理学科</a>
+                            <a href="/faculty/departments/mathematics.html">数学科</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="/campus/">教育・学生生活</a>
+                        <div class="dropdown-content">
+                            <a href="/campus/curriculum.html">カリキュラム・国際交流</a>
+                            <a href="/campus/life.html">学生生活ガイド</a>
+                            <a href="/campus/course-system.html">履修関連システム</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="/career/">キャリア・就職支援</a>
+                        <div class="dropdown-content">
+                            <a href="/career/results.html">就職実績データ</a>
+                            <a href="/career/support.html">資格・公務員試験対策</a>
+                            <a href="/career/company.html">企業向け求人案内</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="/research/">研究・大学院</a>
+                        <div class="dropdown-content">
+                            <a href="/research/graduate.html">大学院(理工学研究科)案内</a>
+                            <a href="/research/projects.html">研究プロジェクト</a>
+                            <a href="/research/facilities.html">研究施設</a>
+                            <a href="/research/database.html">研究者情報データベース</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="/about/">学部概要</a>
+                        <div class="dropdown-content">
+                            <a href="/about/evaluation.html">自己点検・評価</a>
+                            <a href="/about/community.html">地域連携</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="/news/">ニュース・広報</a>
+                        <div class="dropdown-content">
+                            <a href="/news/index.html">日大理工通信</a>
+                            <a href="/news/index.html">広報誌・動画ギャラリー</a>
+                            <a href="/news/index.html">SNS公式アカウント</a>
+                        </div>
+                    </li>
+                    <li class="active">
+                        <a href="/contact/">アクセス・お問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <ul>
+                <li><a href="../index.html">ホーム</a></li>
+                <li><a href="index.html">アクセス・お問い合わせ</a></li>
+                <li><a href="inquiry.html">お問い合わせ一覧</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1>お問い合わせ一覧</h1>
+            <p>日本大学理工学部への各種お問い合わせ先のご案内</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col" style="flex: 2;">
+                    <h2>お問い合わせ先一覧</h2>
+                    <p>日本大学理工学部への各種お問い合わせ先をご案内します。お問い合わせの内容に応じて、適切な窓口にご連絡ください。</p>
+                    
+                    <div class="mb-5">
+                        <h3>入試関連</h3>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-user-graduate"></i> 入試課</h4>
+                                <p>入学試験、入学手続き、オープンキャンパスなどに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 03-3259-0XXX</li>
+                                    <li>FAX: 03-3259-0XXX</li>
+                                    <li>E-mail: nyushi@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3>学務関連</h3>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-book"></i> 学務課（駿河台）</h4>
+                                <p>履修、成績、各種証明書、学籍などに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 03-3259-0XXX</li>
+                                    <li>FAX: 03-3259-0XXX</li>
+                                    <li>E-mail: gakumu@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-book"></i> 学務課（船橋）</h4>
+                                <p>履修、成績、各種証明書、学籍などに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 047-469-XXXX</li>
+                                    <li>FAX: 047-469-XXXX</li>
+                                    <li>E-mail: gakumu-funabashi@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3>学生生活関連</h3>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-users"></i> 学生課</h4>
+                                <p>奨学金、課外活動、学生寮、学生相談などに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 03-3259-0XXX</li>
+                                    <li>FAX: 03-3259-0XXX</li>
+                                    <li>E-mail: gakusei@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3>就職・キャリア関連</h3>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-briefcase"></i> キャリアセンター（駿河台）</h4>
+                                <p>就職活動、インターンシップ、企業求人などに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 03-3259-0XXX</li>
+                                    <li>FAX: 03-3259-0XXX</li>
+                                    <li>E-mail: career@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-briefcase"></i> キャリアセンター（船橋）</h4>
+                                <p>就職活動、インターンシップ、企業求人などに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 047-469-XXXX</li>
+                                    <li>FAX: 047-469-XXXX</li>
+                                    <li>E-mail: career-funabashi@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3>研究・産学連携関連</h3>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-flask"></i> 研究事務課</h4>
+                                <p>研究活動、研究費、大学院などに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 03-3259-0XXX</li>
+                                    <li>FAX: 03-3259-0XXX</li>
+                                    <li>E-mail: kenkyu@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-handshake"></i> 産学連携知財センター</h4>
+                                <p>共同研究、受託研究、技術相談などに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 03-3259-0XXX</li>
+                                    <li>FAX: 03-3259-0XXX</li>
+                                    <li>E-mail: sangaku@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3>広報関連</h3>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-newspaper"></i> 広報課</h4>
+                                <p>広報活動、メディア取材、ウェブサイトなどに関するお問い合わせ</p>
+                                <ul>
+                                    <li>TEL: 03-3259-0XXX</li>
+                                    <li>FAX: 03-3259-0XXX</li>
+                                    <li>E-mail: koho@cst.nihon-u.ac.jp</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3>総合案内</h3>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-info-circle"></i> 駿河台キャンパス 代表</h4>
+                                <ul>
+                                    <li>TEL: 03-3259-0211</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h4><i class="fas fa-info-circle"></i> 船橋キャンパス 代表</h4>
+                                <ul>
+                                    <li>TEL: 047-469-5111</li>
+                                    <li>受付時間: 平日 9:00〜17:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>お問い合わせフォーム</h2>
+                    <p>以下のフォームからお問い合わせいただけます。必要事項をご記入の上、送信ボタンをクリックしてください。</p>
+                    <form action="#" method="post" style="max-width: 800px;" data-validate>
+                        <div class="form-group">
+                            <label for="name">お名前 <span style="color: red;">*</span></label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">メールアドレス <span style="color: red;">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tel">電話番号</label>
+                            <input type="tel" id="tel" name="tel">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">お問い合わせ種別 <span style="color: red;">*</span></label>
+                            <select id="category" name="category" required>
+                                <option value="">選択してください</option>
+                                <option value="admission">入試に関するお問い合わせ</option>
+                                <option value="curriculum">カリキュラム・授業に関するお問い合わせ</option>
+                                <option value="research">研究に関するお問い合わせ</option>
+                                <option value="career">就職・キャリアに関するお問い合わせ</option>
+                                <option value="other">その他のお問い合わせ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">お問い合わせ内容 <span style="color: red;">*</span></label>
+                            <textarea id="message" name="message" rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="privacy" required>
+                                <a href="#" target="_blank">プライバシーポリシー</a>に同意します <span style="color: red;">*</span>
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-secondary">送信する</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="col" style="flex: 1;">
+                    <div class="card mb-4">
+                        <div class="card-content">
+                            <h3>よくあるご質問</h3>
+                            <p>お問い合わせの多い質問とその回答をまとめています。</p>
+                            <a href="/prospective/faq.html" class="btn">詳細を見る</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-content">
+                            <h3>資料請求</h3>
+                            <p>大学案内や入試要項など、各種資料の請求方法をご案内します。</p>
+                            <a href="#" class="btn">資料を請求する</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-img" style="background-image: url('../assets/images/campus-visit.jpg');"></div>
+                        <div class="card-content">
+                            <h3>キャンパス見学</h3>
+                            <p>個別のキャンパス見学をご希望の方は、こちらからお申し込みください。</p>
+                            <a href="#" class="btn">申し込む</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-content">
+                            <h3>アクセス案内</h3>
+                            <p>駿河台キャンパス・船橋キャンパスへの詳細なアクセス方法をご案内します。</p>
+                            <a href="access.html" class="btn">詳細を見る</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>お問い合わせ時の注意事項</h3>
+                            <ul>
+                                <li>お問い合わせの内容によっては、回答までにお時間をいただく場合があります。</li>
+                                <li>土日祝日、年末年始、大学の休業期間中は対応できない場合があります。</li>
+                                <li>入試に関するお問い合わせは、入試要項等で確認できる内容についてはご遠慮ください。</li>
+                                <li>個人情報の取り扱いについては、<a href="#">プライバシーポリシー</a>をご確認ください。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>日本大学理工学部</h3>
+                    <p>〒101-8308 東京都千代田区神田駿河台1-8-14</p>
+                    <p>TEL: 03-3259-0211</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>入学案内</h3>
+                    <ul class="footer-links">
+                        <li><a href="/prospective/exam.html">入試情報</a></li>
+                        <li><a href="/prospective/opencampus.html">オープンキャンパス</a></li>
+                        <li><a href="/prospective/scholarship.html">奨学金</a></li>
+                        <li><a href="/prospective/faq.html">よくある質問</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>学部・学科</h3>
+                    <ul class="footer-links">
+                        <li><a href="/faculty/">学部紹介</a></li>
+                        <li><a href="/faculty/departments/">学科一覧</a></li>
+                        <li><a href="/research/graduate.html">大学院</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>キャンパスライフ</h3>
+                    <ul class="footer-links">
+                        <li><a href="/campus/curriculum.html">カリキュラム</a></li>
+                        <li><a href="/campus/life.html">学生生活</a></li>
+                        <li><a href="/career/">就職・キャリア</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>情報公開</h3>
+                    <ul class="footer-links">
+                        <li><a href="/about/evaluation.html">自己点検・評価</a></li>
+                        <li><a href="#">情報公開</a></li>
+                        <li><a href="#">プライバシーポリシー</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; <span id="current-year">2025</span> College of Science and Technology, Nihon University. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
