@@ -1,7 +1,16 @@
-/* 
+/*
  * Nihon University College of Science and Technology
  * Main Stylesheet
  */
+
+/* Font Face Declaration */
+@font-face {
+  font-family: '黎ミンY30';
+  src: local('Reimin Y30'),
+       local('黎ミンY30');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* Reset and Base Styles */
 * {
@@ -17,8 +26,8 @@
   --medium-gray: #e0e0e0;
   --dark-gray: #333333;
   --white: #ffffff;
-  --font-main: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
-  --font-heading: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+  --font-main: '黎ミンY30', 'Reimin Y30', '游明朝', 'Yu Mincho', '游明朝体', 'YuMincho', 'ヒラギノ明朝 Pro W3', 'Hiragino Mincho Pro', 'HiraMinProN-W3', 'HGS明朝E', 'ＭＳ Ｐ明朝', 'MS PMincho', serif;
+  --font-heading: '黎ミンY30', 'Reimin Y30', '游明朝', 'Yu Mincho', '游明朝体', 'YuMincho', 'ヒラギノ明朝 Pro W3', 'Hiragino Mincho Pro', 'HiraMinProN-W3', 'HGS明朝E', 'ＭＳ Ｐ明朝', 'MS PMincho', serif;
   --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
