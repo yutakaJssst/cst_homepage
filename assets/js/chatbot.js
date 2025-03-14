@@ -1,11 +1,14 @@
 import CONFIG from './config.js';
+console.log("Chatbot module loaded");
 
 class Chatbot {
     constructor() {
+        console.log("Chatbot constructor called");
         this.container = null;
         this.messages = [];
         this.isOpen = false;
         this.init();
+        console.log("Chatbot instance created");
     }
 
     init() {
@@ -25,6 +28,7 @@ class Chatbot {
         toggle.className = 'chatbot-toggle';
         toggle.innerHTML = '<i class="fas fa-comments"></i>';
         document.body.appendChild(toggle);
+        console.log("Chatbot toggle appended");
 
         // Create chatbot container
         const container = document.createElement('div');
@@ -43,17 +47,24 @@ class Chatbot {
             </div>
         `;
         document.body.appendChild(container);
+        console.log("Chatbot container appended");
         this.container = container;
     }
 
     addEventListeners() {
         // Toggle chatbot
         const toggle = document.querySelector('.chatbot-toggle');
-        toggle.addEventListener('click', () => this.toggleChatbot());
-
+        toggle.addEventListener('click', () => {
+            console.log("Chatbot toggle clicked");
+            this.toggleChatbot();
+        });
+        
         // Close chatbot
         const close = this.container.querySelector('.chatbot-close');
-        close.addEventListener('click', () => this.toggleChatbot());
+        close.addEventListener('click', () => {
+            console.log("Chatbot close clicked");
+            this.toggleChatbot();
+        });
 
         // Submit form
         const form = this.container.querySelector('form');
@@ -105,7 +116,7 @@ class Chatbot {
             // Add system message for context
             conversationHistory.unshift({
                 role: 'system',
-                content: '日本大学理工学部のウェブサイトに関する質問に答えるアシスタントです。学部の情報、入試、カリキュラム、キャンパスライフなどについて回答します。'
+                content: 'このチャットアシスタントは、CSTホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
             });
 
             // Call ChatGPT API
@@ -148,7 +159,8 @@ class Chatbot {
     }
 }
 
-// Initialize chatbot when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+if(document.readyState === "loading"){
+    document.addEventListener('DOMContentLoaded', () => { new Chatbot(); });
+} else {
     new Chatbot();
-});
+}
