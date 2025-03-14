@@ -163,7 +163,7 @@ header {
 }
 
 .logo img {
-  height: 60px;
+  height: 80px;
   margin-right: 1rem;
 }
 
@@ -723,7 +723,7 @@ input:focus, textarea:focus, select:focus {
   }
   
   .logo img {
-    height: 40px;
+    height: 55px;
   }
   
   .logo-text .university-name {
