@@ -124,12 +124,14 @@ class Chatbot {
             try {
                 console.log('Attempting to call OpenAI API with key:', CONFIG.OPENAI_API_KEY ? 'Key exists' : 'No key found');
                 
-                // Always use static responses for GitHub Pages
+                // Always use static responses for GitHub Pages or Netlify (if needed)
                 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 const isGitHubPages = window.location.hostname.includes('github.io');
+                const isNetlify = window.location.hostname.includes('netlify.app');
                 const userMessageLower = message.toLowerCase();
                 
-                // For GitHub Pages, always use static responses regardless of API key
+                // For GitHub Pages, always use static responses
+                // For Netlify, only use static responses if there's a CORS error
                 if (isGitHubPages) {
                     console.log('Running on GitHub Pages, using static response');
                     
@@ -207,12 +209,49 @@ class Chatbot {
                     throw new Error('Using static response');
                 }
                 
+                // Always use static responses for Netlify until we fix the API issues
+                if (isNetlify && userMessageLower.includes('学科')) {
+                    console.log('Running on Netlify, using static response for department question');
+                    botResponse = '日本大学理工学部には、以下の学科があります：\n\n' +
+                        '1. 土木工学科\n' +
+                        '2. 交通システム工学科\n' +
+                        '3. 建築学科\n' +
+                        '4. 海洋建築工学科\n' +
+                        '5. まちづくり工学科\n' +
+                        '6. 機械工学科\n' +
+                        '7. 精密機械工学科\n' +
+                        '8. 航空宇宙工学科\n' +
+                        '9. 電気工学科\n' +
+                        '10. 電子工学科\n' +
+                        '11. 応用情報工学科\n' +
+                        '12. 物質応用化学科\n' +
+                        '13. 物理学科\n' +
+                        '14. 数学科\n\n' +
+                        'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。';
+                    
+                    // Skip the API call and return the static response directly
+                    // Remove loading message
+                    const messagesContainer = this.container.querySelector('.chatbot-messages');
+                    messagesContainer.removeChild(messagesContainer.lastChild);
+                    
+                    // Add bot response
+                    this.addMessage('bot', botResponse);
+                    
+                    // Return early to avoid API call
+                    return;
+                }
+                
                 let apiUrl;
                 if (isLocalhost) {
                     // Use direct API call for localhost
                     apiUrl = 'https://api.openai.com/v1/chat/completions';
+                } else if (isNetlify) {
+                    // Use Netlify function for Netlify sites with absolute URL
+                    const netlifyUrl = window.location.origin + '/.netlify/functions/openai-proxy';
+                    apiUrl = netlifyUrl;
+                    console.log('Using Netlify function URL:', netlifyUrl);
                 } else {
-                    // Use Netlify function for other deployed sites
+                    // Use relative path for other deployed sites
                     apiUrl = '/api/openai-proxy';
                 }
                 
@@ -255,7 +294,28 @@ class Chatbot {
                 } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
                     botResponse = 'ネットワークエラーが発生しました。CORSポリシーによりAPIへのアクセスがブロックされている可能性があります。';
                 } else if (error.message.includes('CORS') || error.message.includes('Unexpected token')) {
-                    botResponse = 'CORSエラーが発生しました。GitHub Pages環境では、APIへの直接アクセスができないため、事前に用意された回答のみ表示されます。';
+                    // If on Netlify, provide a more specific error message
+                    if (isNetlify) {
+                        botResponse = 'CORSエラーが発生しました。Netlify環境では、APIへのアクセスに問題が発生しています。以下の学科情報をご参考ください：\n\n' +
+                            '日本大学理工学部には、以下の学科があります：\n\n' +
+                            '1. 土木工学科\n' +
+                            '2. 交通システム工学科\n' +
+                            '3. 建築学科\n' +
+                            '4. 海洋建築工学科\n' +
+                            '5. まちづくり工学科\n' +
+                            '6. 機械工学科\n' +
+                            '7. 精密機械工学科\n' +
+                            '8. 航空宇宙工学科\n' +
+                            '9. 電気工学科\n' +
+                            '10. 電子工学科\n' +
+                            '11. 応用情報工学科\n' +
+                            '12. 物質応用化学科\n' +
+                            '13. 物理学科\n' +
+                            '14. 数学科\n\n' +
+                            'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。';
+                    } else {
+                        botResponse = 'CORSエラーが発生しました。GitHub Pages環境では、APIへの直接アクセスができないため、事前に用意された回答のみ表示されます。';
+                    }
                 } else {
                     botResponse = `すみません、エラーが発生しました：${error.message}`;
                 }

@@ -68,7 +68,48 @@ GitHub Pagesを使用する場合は、APIキーの制限とCORSの問題に対�
 - 「キャンパスの場所を教えてください」→ キャンパス情報の回答
 - その他の質問 → 一般的な案内メッセージ
 
-注意: GitHub Pages環境では、OpenAI APIへの直接アクセスができないため、機能が制限されています。「申し訳ありませんが、APIキーに問題があるようです」や「Unexpected token 'S', "See /corsd"...」などのエラーが表示された場合は、ページを再読み込みしてください。完全な機能を利用するには、Netlifyでのデプロイをご検討ください。
+### 3. Netlify（最も推奨）
+
+Netlifyでデプロイする場合は、サーバーレス関数を使用してCORS問題を解決します。最新の修正では、以下の改善を行いました：
+
+1. **絶対URLの使用**:
+   - 相対パス（`/.netlify/functions/openai-proxy`）ではなく、絶対URL（`https://your-site.netlify.app/.netlify/functions/openai-proxy`）を使用
+   - これにより、パスの解決問題を回避
+
+2. **学科に関する質問の自動検出**:
+   - 「学科」を含む質問に対しては、APIを呼び出さずに静的な回答を表示
+   - これにより、APIエラーが発生しても基本的な情報を提供
+
+3. **CORS設定の強化**:
+   - `netlify.toml`ファイルにCORSヘッダーを追加
+   - これにより、ブラウザのCORS制限を回避
+
+#### Netlify設定のトラブルシューティング
+
+1. Netlify環境変数に `API_KEY` または `OPENAI_API_KEY` が正しく設定されているか確認してください。
+
+2. `netlify.toml`ファイルが以下のように設定されていることを確認してください：
+   ```toml
+   [build]
+     functions = "netlify/functions"
+     publish = "."
+
+   # This redirect is for the /api path
+   [[redirects]]
+     from = "/api/*"
+     to = "/.netlify/functions/:splat"
+     status = 200
+
+   # Add CORS headers for the functions
+   [[headers]]
+     for = "/.netlify/functions/*"
+       [headers.values]
+       Access-Control-Allow-Origin = "*"
+       Access-Control-Allow-Headers = "Content-Type, Authorization"
+       Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+   ```
+
+3. 問題が解決しない場合は、ブラウザのコンソールでエラーメッセージを確認し、ページを再読み込みしてください。
 
 ### 3. GitHub Pages（基本）
 
