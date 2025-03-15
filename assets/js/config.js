@@ -1,6 +1,6 @@
 // ChatGPT API Configuration
 const CONFIG = {
-    OPENAI_API_KEY: process.env.API_KEY || 'YOUR_API', // Will be replaced during build
+    OPENAI_API_KEY: 'YOUR_API', // Will be replaced during build with GitHub Actions
     MODEL: 'gpt-3.5-turbo',
     MAX_TOKENS: 150,
     TEMPERATURE: 0.7

@@ -20,7 +20,7 @@ jobs:
       - name: Replace API Key
         run: |
           # Replace the placeholder in config.js with the actual API key
-          sed -i "s/process.env.API_KEY || 'YOUR_API'/'${{ secrets.API_KEY }}'/" assets/js/config.js
+          sed -i "s/'YOUR_API'/'${{ secrets.API_KEY }}'/" assets/js/config.js
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
