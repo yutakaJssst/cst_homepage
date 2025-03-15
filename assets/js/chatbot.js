@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+// Chatbot implementation for CST Homepage
 console.log("Chatbot module loaded");
 
 class Chatbot {
@@ -7,6 +7,7 @@ class Chatbot {
         this.container = null;
         this.messages = [];
         this.isOpen = false;
+        this.isWaitingForResponse = false;
         this.init();
         console.log("Chatbot instance created");
     }
@@ -72,7 +73,7 @@ class Chatbot {
             e.preventDefault();
             const input = form.querySelector('input');
             const message = input.value.trim();
-            if (message) {
+            if (message && !this.isWaitingForResponse) {
                 this.handleUserMessage(message);
                 input.value = '';
             }
@@ -96,20 +97,107 @@ class Chatbot {
         this.messages.push({ type, content });
     }
 
+    // Add a loading indicator
+    addLoadingIndicator() {
+        const messagesContainer = this.container.querySelector('.chatbot-messages');
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message message-bot message-loading';
+        loadingDiv.innerHTML = `
+            <div class="message-content">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        `;
+        messagesContainer.appendChild(loadingDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        return loadingDiv;
+    }
+
+    // Remove the loading indicator
+    removeLoadingIndicator() {
+        const messagesContainer = this.container.querySelector('.chatbot-messages');
+        const loadingIndicator = messagesContainer.querySelector('.message-loading');
+        if (loadingIndicator) {
+            messagesContainer.removeChild(loadingIndicator);
+        }
+    }
+
+    // Get static response based on user query
+    getStaticResponse(userMessageLower) {
+        if (userMessageLower.includes('学科') || userMessageLower.includes('専攻') || userMessageLower.includes('コース')) {
+            return '日本大学理工学部には、以下の学科があります：\n\n' +
+                '1. 土木工学科\n' +
+                '2. 交通システム工学科\n' +
+                '3. 建築学科\n' +
+                '4. 海洋建築工学科\n' +
+                '5. まちづくり工学科\n' +
+                '6. 機械工学科\n' +
+                '7. 精密機械工学科\n' +
+                '8. 航空宇宙工学科\n' +
+                '9. 電気工学科\n' +
+                '10. 電子工学科\n' +
+                '11. 応用情報工学科\n' +
+                '12. 物質応用化学科\n' +
+                '13. 物理学科\n' +
+                '14. 数学科\n\n' +
+                'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。';
+        } else if (userMessageLower.includes('キャンパス') || userMessageLower.includes('場所') || userMessageLower.includes('住所')) {
+            return '日本大学理工学部は、以下の2つのキャンパスがあります：\n\n' +
+                '1. 駿河台キャンパス\n' +
+                '〒101-8308 東京都千代田区神田駿河台1-8-14\n' +
+                'JR中央線・総武線「御茶ノ水」駅下車 徒歩3分\n\n' +
+                '2. 船橋キャンパス\n' +
+                '〒274-8501 千葉県船橋市習志野台7-24-1\n' +
+                'JR総武線「津田沼」駅下車 徒歩20分またはバス5分';
+        } else if (userMessageLower.includes('入試') || userMessageLower.includes('受験') || userMessageLower.includes('入学')) {
+            return '日本大学理工学部の入試情報については、以下の種類があります：\n\n' +
+                '1. 一般選抜\n' +
+                '2. 学校推薦型選抜\n' +
+                '3. 総合型選抜\n' +
+                '4. 外国人留学生入試\n' +
+                '5. 編入学試験\n\n' +
+                '詳細な日程や試験科目については、公式ウェブサイトの入試情報ページをご確認ください。';
+        } else if (userMessageLower.includes('奨学金') || userMessageLower.includes('費用') || userMessageLower.includes('学費')) {
+            return '日本大学理工学部では、様々な奨学金制度を用意しています：\n\n' +
+                '1. 日本大学独自の奨学金\n' +
+                '2. 日本学生支援機構奨学金\n' +
+                '3. 地方公共団体奨学金\n' +
+                '4. 民間団体奨学金\n\n' +
+                '学費については、学科や入学年度によって異なりますので、公式ウェブサイトの学費・奨学金ページをご確認ください。';
+        } else {
+            return null; // No static response available
+        }
+    }
+
     async handleUserMessage(message) {
         // Add user message to chat
         this.addMessage('user', message);
-        const hostname = window.location.hostname;
-        const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
-        const isGitHubPages = hostname.includes('github.io');
-        const isNetlify = hostname.includes('netlify.app');
+        
+        // Prevent multiple submissions
+        this.isWaitingForResponse = true;
+        
+        // Show loading indicator
+        const loadingIndicator = this.addLoadingIndicator();
+        
         const userMessageLower = message.toLowerCase();
-
+        
         try {
-            // Show loading indicator
-            const loadingMessage = 'お返事を考えています...';
-            this.addMessage('bot', loadingMessage);
-
+            // Check for static responses first
+            const staticResponse = this.getStaticResponse(userMessageLower);
+            
+            if (staticResponse) {
+                // Use static response
+                setTimeout(() => {
+                    this.removeLoadingIndicator();
+                    this.addMessage('bot', staticResponse);
+                    this.isWaitingForResponse = false;
+                }, 500); // Small delay to make it feel more natural
+                return;
+            }
+            
             // Prepare conversation history
             const conversationHistory = this.messages
                 .slice(-5) // Get last 5 messages for context
@@ -121,231 +209,63 @@ class Chatbot {
             // Add system message for context
             conversationHistory.unshift({
                 role: 'system',
-                content: 'このチャットアシスタントは、CSTホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
+                content: 'このチャットアシスタントは、日本大学理工学部のホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
             });
-            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const isGitHubPages = window.location.hostname.includes('github.io');
-            const isNetlify = window.location.hostname.includes('netlify.app');
-            const userMessageLower = message.toLowerCase();
 
-            let botResponse;
-            
-            try {
-                console.log('Attempting to call OpenAI API with key:', CONFIG.OPENAI_API_KEY ? 'Key exists' : 'No key found');
-                
-                // Always use static responses for GitHub Pages or Netlify (if needed)
-                // For GitHub Pages, always use static responses
-                // For Netlify, only use static responses if there's a CORS error
-                if (isGitHubPages) {
-                    console.log('Running on GitHub Pages, using static response');
-                    
-                    // Different responses based on the question
-                    if (userMessageLower.includes('学科') || userMessageLower.includes('専攻') || userMessageLower.includes('コース')) {
-                        botResponse = '日本大学理工学部には、以下の学科があります：\n\n' +
-                            '1. 土木工学科\n' +
-                            '2. 交通システム工学科\n' +
-                            '3. 建築学科\n' +
-                            '4. 海洋建築工学科\n' +
-                            '5. まちづくり工学科\n' +
-                            '6. 機械工学科\n' +
-                            '7. 精密機械工学科\n' +
-                            '8. 航空宇宙工学科\n' +
-                            '9. 電気工学科\n' +
-                            '10. 電子工学科\n' +
-                            '11. 応用情報工学科\n' +
-                            '12. 物質応用化学科\n' +
-                            '13. 物理学科\n' +
-                            '14. 数学科\n\n' +
-                            'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。';
-                    } else if (userMessageLower.includes('キャンパス') || userMessageLower.includes('場所') || userMessageLower.includes('住所')) {
-                        botResponse = '日本大学理工学部は、以下の2つのキャンパスがあります：\n\n' +
-                            '1. 駿河台キャンパス\n' +
-                            '〒101-8308 東京都千代田区神田駿河台1-8-14\n' +
-                            'JR中央線・総武線「御茶ノ水」駅下車 徒歩3分\n\n' +
-                            '2. 船橋キャンパス\n' +
-                            '〒274-8501 千葉県船橋市習志野台7-24-1\n' +
-                            'JR総武線「津田沼」駅下車 徒歩20分またはバス5分';
-                    } else {
-                        botResponse = 'こんにちは！日本大学理工学部についてのご質問にお答えします。\n\n' +
-                            '学科、キャンパス、入試情報などについてお気軽にお尋ねください。\n\n' +
-                            '※注意: GitHub Pages環境では、APIキーの制限により事前に用意された回答のみ表示されます。完全な機能を利用するには、Netlifyでのデプロイをご検討ください。';
-                    }
-                    
-                    // Skip the API call and return the static response directly
-                    // Remove loading message
-                    const messagesContainer = this.container.querySelector('.chatbot-messages');
-                    messagesContainer.removeChild(messagesContainer.lastChild);
-                    
-                    // Add bot response
-                    this.addMessage('bot', botResponse);
-                    
-                    // Return early to avoid API call
-                    return;
-                }
-                
-                // Check if API key is valid for non-GitHub Pages environments
-                if (!CONFIG.OPENAI_API_KEY || CONFIG.OPENAI_API_KEY === 'API_KEY') {
-                    console.warn('Invalid API key. Using fallback response.');
-                    botResponse = '申し訳ありませんが、APIキーが設定されていないため、質問にお答えできません。管理者にお問い合わせください。';
-                    throw new Error('Invalid API key');
-                }
-                
-                // For specific questions in non-GitHub Pages environments
-                if (userMessageLower.includes('学科') || userMessageLower.includes('専攻') || userMessageLower.includes('コース')) {
-                    console.log('Using static response for department question');
-                    botResponse = '日本大学理工学部には、以下の学科があります：\n\n' +
-                        '1. 土木工学科\n' +
-                        '2. 交通システム工学科\n' +
-                        '3. 建築学科\n' +
-                        '4. 海洋建築工学科\n' +
-                        '5. まちづくり工学科\n' +
-                        '6. 機械工学科\n' +
-                        '7. 精密機械工学科\n' +
-                        '8. 航空宇宙工学科\n' +
-                        '9. 電気工学科\n' +
-                        '10. 電子工学科\n' +
-                        '11. 応用情報工学科\n' +
-                        '12. 物質応用化学科\n' +
-                        '13. 物理学科\n' +
-                        '14. 数学科\n\n' +
-                        'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。\n\n' +
-                        '※注意: GitHub Pages環境ではAPIキーの制限により、事前に用意された回答のみ表示されます。完全な機能を利用するには、Netlifyでのデプロイをご検討ください。';
-                    throw new Error('Using static response');
-                }
-                
-                // Always use static responses for Netlify until we fix the API issues
-                if (isNetlify && userMessageLower.includes('学科')) {
-                    console.log('Running on Netlify, using static response for department question');
-                    botResponse = '日本大学理工学部には、以下の学科があります：\n\n' +
-                        '1. 土木工学科\n' +
-                        '2. 交通システム工学科\n' +
-                        '3. 建築学科\n' +
-                        '4. 海洋建築工学科\n' +
-                        '5. まちづくり工学科\n' +
-                        '6. 機械工学科\n' +
-                        '7. 精密機械工学科\n' +
-                        '8. 航空宇宙工学科\n' +
-                        '9. 電気工学科\n' +
-                        '10. 電子工学科\n' +
-                        '11. 応用情報工学科\n' +
-                        '12. 物質応用化学科\n' +
-                        '13. 物理学科\n' +
-                        '14. 数学科\n\n' +
-                        'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。';
-                    
-                    // Skip the API call and return the static response directly
-                    // Remove loading message
-                    const messagesContainer = this.container.querySelector('.chatbot-messages');
-                    messagesContainer.removeChild(messagesContainer.lastChild);
-                    
-                    // Add bot response
-                    this.addMessage('bot', botResponse);
-                    
-                    // Return early to avoid API call
-                    return;
-                }
-                let apiUrl;
-                if (isLocalhost) {
-                    apiUrl = 'https://api.openai.com/v1/chat/completions';
-                } else if (isGitHubPages) {
-                    apiUrl = 'https://yutatest.netlify.app/.netlify/functions/openai-proxy';
-                } else {
-                    // Use the redirect defined in netlify.toml for all non-localhost environments
-                    apiUrl = '/api/openai-proxy';
-                }
-                console.log('Using API URL:', apiUrl);
-                
-                console.log('Using API URL:', apiUrl);
-                
-                // Call ChatGPT API (directly or via proxy)
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: CONFIG.MODEL,
-                        messages: conversationHistory,
-                        max_tokens: CONFIG.MAX_TOKENS,
-                        temperature: CONFIG.TEMPERATURE
-                    })
-                });
+            // Call the Netlify function
+            const response = await fetch('/.netlify/functions/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    messages: conversationHistory
+                })
+            });
 
-                console.log('API Response status:', response.status);
-                const contentType = response.headers.get('content-type');
-                let parsedData;
-                if (contentType && contentType.includes('application/json')) {
-                    parsedData = await response.json();
-                } else {
-                    const errorText = await response.text();
-                    throw new Error(`Expected JSON but received: ${errorText}`);
-                }
-                
-                if (!response.ok) {
-                    console.error('API Error details:', parsedData);
-                    throw new Error(parsedData.error?.message || `API request failed with status ${response.status}`);
-                }
-                
-                console.log('API Response received successfully');
-                botResponse = parsedData.choices[0].message.content;
-            } catch (error) {
-                console.error('Error type:', error.name);
-                console.error('Error message:', error.message);
-                console.error('Full error:', error);
-                
-                // Provide a more helpful response based on the error
-                if (error.message.includes('API key')) {
-                    botResponse = '申し訳ありませんが、APIキーに問題があるようです。管理者にお問い合わせください。';
-                } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                    botResponse = 'ネットワークエラーが発生しました。CORSポリシーによりAPIへのアクセスがブロックされている可能性があります。';
-                } else if (error.message.includes('CORS') || error.message.includes('Unexpected token')) {
-                    // If on Netlify, provide a more specific error message
-                    if (window.location.hostname.includes('netlify.app')) {
-                        botResponse = 'CORSエラーが発生しました。Netlify環境では、APIへのアクセスに問題が発生しています。以下の学科情報をご参考ください：\n\n' +
-                            '日本大学理工学部には、以下の学科があります：\n\n' +
-                            '1. 土木工学科\n' +
-                            '2. 交通システム工学科\n' +
-                            '3. 建築学科\n' +
-                            '4. 海洋建築工学科\n' +
-                            '5. まちづくり工学科\n' +
-                            '6. 機械工学科\n' +
-                            '7. 精密機械工学科\n' +
-                            '8. 航空宇宙工学科\n' +
-                            '9. 電気工学科\n' +
-                            '10. 電子工学科\n' +
-                            '11. 応用情報工学科\n' +
-                            '12. 物質応用化学科\n' +
-                            '13. 物理学科\n' +
-                            '14. 数学科\n\n' +
-                            'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。';
-                    } else {
-                        botResponse = 'CORSエラーが発生しました。GitHub Pages環境では、APIへの直接アクセスができないため、事前に用意された回答のみ表示されます。';
-                    }
-                } else {
-                    botResponse = `すみません、エラーが発生しました：${error.message}`;
-                }
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `API request failed with status ${response.status}`);
             }
 
-            // Remove loading message
-            const messagesContainer = this.container.querySelector('.chatbot-messages');
-            messagesContainer.removeChild(messagesContainer.lastChild);
-
-            // Add bot response
+            const data = await response.json();
+            const botResponse = data.choices[0].message.content;
+            
+            // Remove loading indicator and add bot response
+            this.removeLoadingIndicator();
             this.addMessage('bot', botResponse);
-
+            
         } catch (error) {
             console.error('Error:', error);
-            // Remove loading message
-            const messagesContainer = this.container.querySelector('.chatbot-messages');
-            messagesContainer.removeChild(messagesContainer.lastChild);
-            // Add error message
-            this.addMessage('bot', 'すみません、エラーが発生しました。しばらく経ってからもう一度お試しください。');
+            
+            // Remove loading indicator
+            this.removeLoadingIndicator();
+            
+            // Determine appropriate error message
+            let errorMessage;
+            
+            if (error.message.includes('API key')) {
+                errorMessage = '申し訳ありませんが、APIキーに問題があるようです。管理者にお問い合わせください。';
+            } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                errorMessage = 'ネットワークエラーが発生しました。インターネット接続を確認してください。';
+            } else if (error.message.includes('CORS')) {
+                errorMessage = 'CORSエラーが発生しました。サーバー設定に問題があります。管理者にお問い合わせください。';
+            } else {
+                errorMessage = 'すみません、エラーが発生しました。しばらく経ってからもう一度お試しください。';
+            }
+            
+            // Add fallback response with departments info
+            const fallbackInfo = '日本大学理工学部には、土木工学科、交通システム工学科、建築学科、海洋建築工学科、まちづくり工学科、機械工学科、精密機械工学科、航空宇宙工学科、電気工学科、電子工学科、応用情報工学科、物質応用化学科、物理学科、数学科の14学科があります。';
+            
+            this.addMessage('bot', `${errorMessage}\n\n${fallbackInfo}`);
+        } finally {
+            this.isWaitingForResponse = false;
         }
     }
 }
 
-if(document.readyState === "loading"){
+// Initialize chatbot when DOM is ready
+if (document.readyState === "loading") {
     document.addEventListener('DOMContentLoaded', () => { new Chatbot(); });
 } else {
     new Chatbot();
