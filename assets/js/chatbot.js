@@ -165,7 +165,16 @@ class Chatbot {
                             '※注意: GitHub Pages環境では、APIキーの制限により事前に用意された回答のみ表示されます。完全な機能を利用するには、Netlifyでのデプロイをご検討ください。';
                     }
                     
-                    throw new Error('GitHub Pages environment - using static response');
+                    // Skip the API call and return the static response directly
+                    // Remove loading message
+                    const messagesContainer = this.container.querySelector('.chatbot-messages');
+                    messagesContainer.removeChild(messagesContainer.lastChild);
+                    
+                    // Add bot response
+                    this.addMessage('bot', botResponse);
+                    
+                    // Return early to avoid API call
+                    return;
                 }
                 
                 // Check if API key is valid for non-GitHub Pages environments
