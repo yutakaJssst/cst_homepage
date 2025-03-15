@@ -121,11 +121,7 @@ class Chatbot {
 
             let botResponse;
             
-            // Check if API key is available
-            if (CONFIG.OPENAI_API_KEY === 'YOUR_API') {
-                console.warn('API key not configured. Using fallback response.');
-                botResponse = 'すみません、現在APIキーが設定されていないため、質問にお答えできません。管理者にお問い合わせください。';
-            } else {
+            try {
                 // Call ChatGPT API
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
@@ -142,11 +138,24 @@ class Chatbot {
                 });
 
                 if (!response.ok) {
-                    throw new Error('API request failed');
+                    const errorData = await response.json();
+                    console.error('API Error:', errorData);
+                    throw new Error(errorData.error?.message || 'API request failed');
                 }
 
                 const data = await response.json();
                 botResponse = data.choices[0].message.content;
+            } catch (error) {
+                console.error('Error details:', error);
+                
+                // Provide a more helpful response based on the error
+                if (error.message.includes('API key')) {
+                    botResponse = '申し訳ありませんが、APIキーに問題があるようです。管理者にお問い合わせください。';
+                } else if (error.message.includes('CORS')) {
+                    botResponse = 'CORSエラーが発生しました。サーバー側の設定を確認してください。';
+                } else {
+                    botResponse = `すみません、エラーが発生しました：${error.message}`;
+                }
             }
 
             // Remove loading message

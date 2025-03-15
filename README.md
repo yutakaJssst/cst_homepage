@@ -43,7 +43,27 @@ export default CONFIG;
 
 **注意**:
 - APIキーをGitHubにコミットしないでください。ローカルでのテスト後は必ず元の状態に戻してください。
+- 現在のコードではテスト用のダミーAPIキーが設定されていますが、これは実際には機能しません。実際のAPIキーに置き換えてください。
 - ブラウザでCORSエラーが発生する場合は、OpenAI APIへの直接アクセスが制限されている可能性があります。その場合は、バックエンドサーバーを介してAPIにアクセスするか、CORSプロキシを使用してください。
+
+### CORSエラーの解決方法
+
+ブラウザから直接OpenAI APIにアクセスする場合、CORSエラーが発生する可能性があります。これを解決するには以下の方法があります：
+
+1. **CORSプロキシを使用する**
+   
+   `assets/js/chatbot.js`ファイルを編集して、APIリクエストをCORSプロキシを通して行うようにします：
+
+   ```javascript
+   // 例: CORSプロキシを使用する場合
+   const response = await fetch('https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions', {
+       // ...
+   });
+   ```
+
+2. **バックエンドサーバーを作成する**
+   
+   Node.jsなどを使用してバックエンドサーバーを作成し、そこからOpenAI APIにリクエストを送信します。これにより、CORSの問題を回避できます。
 
 ## ローカルサーバーの起動
 
