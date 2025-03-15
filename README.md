@@ -25,7 +25,44 @@ GitHub Actionsでデプロイする場合は、GitHub Secretsを使用できま�
 
 これにより、GitHub Actionsのデプロイ時に自動的にAPIキーが設定されます。
 
-### ローカル開発の場合
+## デプロイ方法
+
+このプロジェクトは以下の2つの方法でデプロイできます：
+
+### 1. Netlify（推奨）
+
+Netlifyを使用すると、サーバーレス関数を利用してCORSの問題を回避できます。
+
+1. Netlifyアカウントを作成し、新しいサイトを作成します
+2. 以下の環境変数を設定します：
+   - `OPENAI_API_KEY`: OpenAI APIキー
+
+3. GitHub Actionsを使用してデプロイするには、以下のシークレットを設定します：
+   - `API_KEY`: OpenAI APIキー
+   - `NETLIFY_AUTH_TOKEN`: Netlify個人アクセストークン
+   - `NETLIFY_SITE_ID`: NetlifyサイトのサイトID
+
+#### Netlify個人アクセストークンの取得方法
+
+1. Netlifyにログインします
+2. 右上のユーザーアイコンをクリックし、「User settings」を選択します
+3. 「Applications」を選択します
+4. 「New access token」ボタンをクリックします
+5. トークンの説明を入力し、「Generate token」をクリックします
+6. 生成されたトークンをコピーします（このトークンは一度しか表示されないので注意してください）
+
+#### NetlifyサイトのサイトIDの取得方法
+
+1. Netlifyにログインします
+2. サイトを選択します
+3. 「Site settings」を選択します
+4. 「Site information」セクションに「Site ID」が表示されています
+
+### 2. GitHub Pages
+
+GitHub Pagesを使用する場合は、CORSの問題を回避するために以下の方法を使用します：
+
+#### ローカル開発の場合
 
 ローカルで開発する場合は、`assets/js/config.js`ファイルを直接編集してAPIキーを設定できます：
 

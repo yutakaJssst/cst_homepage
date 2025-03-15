@@ -122,8 +122,20 @@ class Chatbot {
             let botResponse;
             
             try {
-                // Call ChatGPT API
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                console.log('Attempting to call OpenAI API with key:', CONFIG.OPENAI_API_KEY ? 'Key exists' : 'No key found');
+                
+                // Determine if we're running on localhost or on a deployed site
+                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                
+                // Use direct API call for localhost, proxy for deployed site
+                const apiUrl = isLocalhost
+                    ? 'https://api.openai.com/v1/chat/completions'
+                    : '/api/openai-proxy';
+                
+                console.log('Using API URL:', apiUrl);
+                
+                // Call ChatGPT API (directly or via proxy)
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -137,20 +149,27 @@ class Chatbot {
                     })
                 });
 
+                console.log('API Response status:', response.status);
+                
                 if (!response.ok) {
                     const errorData = await response.json();
-                    console.error('API Error:', errorData);
-                    throw new Error(errorData.error?.message || 'API request failed');
+                    console.error('API Error details:', errorData);
+                    throw new Error(errorData.error?.message || `API request failed with status ${response.status}`);
                 }
 
                 const data = await response.json();
+                console.log('API Response received successfully');
                 botResponse = data.choices[0].message.content;
             } catch (error) {
-                console.error('Error details:', error);
+                console.error('Error type:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Full error:', error);
                 
                 // Provide a more helpful response based on the error
                 if (error.message.includes('API key')) {
                     botResponse = '申し訳ありませんが、APIキーに問題があるようです。管理者にお問い合わせください。';
+                } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    botResponse = 'ネットワークエラーが発生しました。CORSポリシーによりAPIへのアクセスがブロックされている可能性があります。';
                 } else if (error.message.includes('CORS')) {
                     botResponse = 'CORSエラーが発生しました。サーバー側の設定を確認してください。';
                 } else {

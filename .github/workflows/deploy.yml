@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to Netlify
 
 on:
   push:
@@ -17,14 +17,28 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install Netlify Functions Dependencies
+        run: |
+          cd netlify/functions
+          npm install
+
       - name: Replace API Key
         run: |
           # Replace the placeholder in config.js with the actual API key
-          sed -i "s/'sk-1234567890abcdefghijklmnopqrstuvwxyz1234567890'/'${{ secrets.API_KEY }}'/" assets/js/config.js
+          sed -i "s/'YOUR_API'/'${{ secrets.API_KEY }}'/" assets/js/config.js
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2
         with:
-          branch: gh-pages  # The branch the action should deploy to
-          folder: .         # The folder the action should deploy
-          clean: true       # Automatically remove deleted files from the deploy branch
+          publish-dir: '.'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          OPENAI_API_KEY: ${{ secrets.API_KEY }}
+        timeout-minutes: 5
