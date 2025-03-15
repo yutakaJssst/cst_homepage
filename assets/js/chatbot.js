@@ -119,27 +119,35 @@ class Chatbot {
                 content: 'このチャットアシスタントは、CSTホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
             });
 
-            // Call ChatGPT API
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: CONFIG.MODEL,
-                    messages: conversationHistory,
-                    max_tokens: CONFIG.MAX_TOKENS,
-                    temperature: CONFIG.TEMPERATURE
-                })
-            });
+            let botResponse;
+            
+            // Check if API key is available
+            if (CONFIG.OPENAI_API_KEY === 'YOUR_API') {
+                console.warn('API key not configured. Using fallback response.');
+                botResponse = 'すみません、現在APIキーが設定されていないため、質問にお答えできません。管理者にお問い合わせください。';
+            } else {
+                // Call ChatGPT API
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: CONFIG.MODEL,
+                        messages: conversationHistory,
+                        max_tokens: CONFIG.MAX_TOKENS,
+                        temperature: CONFIG.TEMPERATURE
+                    })
+                });
 
-            if (!response.ok) {
-                throw new Error('API request failed');
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                const data = await response.json();
+                botResponse = data.choices[0].message.content;
             }
-
-            const data = await response.json();
-            const botResponse = data.choices[0].message.content;
 
             // Remove loading message
             const messagesContainer = this.container.querySelector('.chatbot-messages');

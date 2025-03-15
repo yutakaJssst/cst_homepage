@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # or master, depending on your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Replace API Key
+        run: |
+          # Replace the placeholder in config.js with the actual API key
+          sed -i "s/process.env.API_KEY || 'YOUR_API'/'${{ secrets.API_KEY }}'/" assets/js/config.js
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # The branch the action should deploy to
+          folder: .         # The folder the action should deploy
+          clean: true       # Automatically remove deleted files from the deploy branch
