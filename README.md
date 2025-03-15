@@ -60,11 +60,11 @@ Netlifyを使用すると、サーバーレス関数を利用してCORSの問題
 3. 「Site settings」を選択します
 4. 「Site information」セクションに「Site ID」が表示されています
 
-### 2. GitHub Pages + CORS Proxy（推奨）
+### 2. GitHub Pages（推奨）
 
-GitHub Pagesを使用する場合は、CORSの問題を回避するためにCORSプロキシを使用します。コードは自動的にGitHub Pagesを検出し、CORS Anywhereプロキシを使用します。
+GitHub Pagesを使用する場合は、APIキーの制限に対応するため、事前に用意された回答を表示するように変更しました。GitHub Pages環境では、チャットボットは「理工学部の学科について教えてください」という質問に対して、事前に用意された回答を表示します。
 
-注意: CORS Anywhereは無料のサービスで、使用制限があります。本番環境では独自のCORSプロキシを設定することをお勧めします。
+注意: GitHub Pages環境では、OpenAI APIへの直接アクセスができないため、機能が制限されています。完全な機能を利用するには、Netlifyでのデプロイをご検討ください。
 
 ### 3. GitHub Pages（基本）
 

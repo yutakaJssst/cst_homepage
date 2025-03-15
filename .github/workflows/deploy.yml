@@ -25,7 +25,7 @@ jobs:
       - name: Replace API Key
         run: |
           # Replace the placeholder in config.js with the actual API key
-          sed -i "s/'YOUR_API'/'${{ secrets.API_KEY }}'/" assets/js/config.js
+          sed -i "s/'API_KEY'/'${{ secrets.API_KEY }}'/" assets/js/config.js
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2

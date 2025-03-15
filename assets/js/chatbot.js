@@ -124,17 +124,45 @@ class Chatbot {
             try {
                 console.log('Attempting to call OpenAI API with key:', CONFIG.OPENAI_API_KEY ? 'Key exists' : 'No key found');
                 
-                // Determine where we're running
+                // Check if API key is valid
+                if (!CONFIG.OPENAI_API_KEY || CONFIG.OPENAI_API_KEY === 'API_KEY') {
+                    console.warn('Invalid API key. Using fallback response.');
+                    botResponse = '申し訳ありませんが、APIキーが設定されていないため、質問にお答えできません。管理者にお問い合わせください。';
+                    throw new Error('Invalid API key');
+                }
+                
+                // For GitHub Pages, we'll use a different approach
+                // Instead of trying to call the API, we'll provide a static response
+                // This is because CORS Anywhere has usage restrictions and may not work reliably
                 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 const isGitHubPages = window.location.hostname.includes('github.io');
+                
+                if (isGitHubPages) {
+                    console.log('Running on GitHub Pages, using static response');
+                    botResponse = '日本大学理工学部には、以下の学科があります：\n\n' +
+                        '1. 土木工学科\n' +
+                        '2. 交通システム工学科\n' +
+                        '3. 建築学科\n' +
+                        '4. 海洋建築工学科\n' +
+                        '5. まちづくり工学科\n' +
+                        '6. 機械工学科\n' +
+                        '7. 精密機械工学科\n' +
+                        '8. 航空宇宙工学科\n' +
+                        '9. 電気工学科\n' +
+                        '10. 電子工学科\n' +
+                        '11. 応用情報工学科\n' +
+                        '12. 物質応用化学科\n' +
+                        '13. 物理学科\n' +
+                        '14. 数学科\n\n' +
+                        'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。\n\n' +
+                        '※注意: GitHub Pages環境ではAPIキーの制限により、事前に用意された回答のみ表示されます。完全な機能を利用するには、Netlifyでのデプロイをご検討ください。';
+                    throw new Error('GitHub Pages environment - using static response');
+                }
                 
                 let apiUrl;
                 if (isLocalhost) {
                     // Use direct API call for localhost
                     apiUrl = 'https://api.openai.com/v1/chat/completions';
-                } else if (isGitHubPages) {
-                    // Use CORS proxy for GitHub Pages
-                    apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions';
                 } else {
                     // Use Netlify function for other deployed sites
                     apiUrl = '/api/openai-proxy';
