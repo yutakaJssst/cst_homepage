@@ -99,6 +99,11 @@ class Chatbot {
     async handleUserMessage(message) {
         // Add user message to chat
         this.addMessage('user', message);
+        const hostname = window.location.hostname;
+        const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+        const isGitHubPages = hostname.includes('github.io');
+        const isNetlify = hostname.includes('netlify.app');
+        const userMessageLower = message.toLowerCase();
 
         try {
             // Show loading indicator
@@ -118,6 +123,10 @@ class Chatbot {
                 role: 'system',
                 content: 'このチャットアシスタントは、CSTホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
             });
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const isNetlify = window.location.hostname.includes('netlify.app');
+            const userMessageLower = message.toLowerCase();
 
             let botResponse;
             
@@ -125,11 +134,6 @@ class Chatbot {
                 console.log('Attempting to call OpenAI API with key:', CONFIG.OPENAI_API_KEY ? 'Key exists' : 'No key found');
                 
                 // Always use static responses for GitHub Pages or Netlify (if needed)
-                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                const isGitHubPages = window.location.hostname.includes('github.io');
-                const isNetlify = window.location.hostname.includes('netlify.app');
-                const userMessageLower = message.toLowerCase();
-                
                 // For GitHub Pages, always use static responses
                 // For Netlify, only use static responses if there's a CORS error
                 if (isGitHubPages) {
@@ -240,20 +244,15 @@ class Chatbot {
                     // Return early to avoid API call
                     return;
                 }
-                
                 let apiUrl;
                 if (isLocalhost) {
                     // Use direct API call for localhost
                     apiUrl = 'https://api.openai.com/v1/chat/completions';
-                } else if (isNetlify) {
-                    // Use Netlify function via redirect defined in netlify.toml
-                    const netlifyUrl = window.location.origin + '/api/openai-proxy';
-                    apiUrl = netlifyUrl;
-                    console.log('Using Netlify function URL:', netlifyUrl);
                 } else {
-                    // Use relative path for other deployed sites
+                    // Use the redirect defined in netlify.toml for all non-localhost environments
                     apiUrl = '/api/openai-proxy';
                 }
+                console.log('Using API URL:', apiUrl);
                 
                 console.log('Using API URL:', apiUrl);
                 
@@ -273,16 +272,22 @@ class Chatbot {
                 });
 
                 console.log('API Response status:', response.status);
+                const contentType = response.headers.get('content-type');
+                let parsedData;
+                if (contentType && contentType.includes('application/json')) {
+                    parsedData = await response.json();
+                } else {
+                    const errorText = await response.text();
+                    throw new Error(`Expected JSON but received: ${errorText}`);
+                }
                 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('API Error details:', errorData);
-                    throw new Error(errorData.error?.message || `API request failed with status ${response.status}`);
+                    console.error('API Error details:', parsedData);
+                    throw new Error(parsedData.error?.message || `API request failed with status ${response.status}`);
                 }
-
-                const data = await response.json();
+                
                 console.log('API Response received successfully');
-                botResponse = data.choices[0].message.content;
+                botResponse = parsedData.choices[0].message.content;
             } catch (error) {
                 console.error('Error type:', error.name);
                 console.error('Error message:', error.message);
@@ -295,7 +300,7 @@ class Chatbot {
                     botResponse = 'ネットワークエラーが発生しました。CORSポリシーによりAPIへのアクセスがブロックされている可能性があります。';
                 } else if (error.message.includes('CORS') || error.message.includes('Unexpected token')) {
                     // If on Netlify, provide a more specific error message
-                    if (isNetlify) {
+                    if (window.location.hostname.includes('netlify.app')) {
                         botResponse = 'CORSエラーが発生しました。Netlify環境では、APIへのアクセスに問題が発生しています。以下の学科情報をご参考ください：\n\n' +
                             '日本大学理工学部には、以下の学科があります：\n\n' +
                             '1. 土木工学科\n' +
