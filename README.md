@@ -34,13 +34,15 @@ GitHub Actionsでデプロイする場合は、GitHub Secretsを使用できま�
 Netlifyを使用すると、サーバーレス関数を利用してCORSの問題を回避できます。
 
 1. Netlifyアカウントを作成し、新しいサイトを作成します
-2. 以下の環境変数を設定します：
-   - `OPENAI_API_KEY`: OpenAI APIキー
+2. 以下の環境変数をNetlifyダッシュボードで設定します：
+   - `API_KEY`: OpenAI APIキー（または`OPENAI_API_KEY`でも可）
 
-3. GitHub Actionsを使用してデプロイするには、以下のシークレットを設定します：
-   - `API_KEY`: OpenAI APIキー
+3. GitHub Actionsを使用してデプロイするには、以下のシークレットをGitHubリポジトリで設定します：
+   - `API_KEY`: OpenAI APIキー（GitHub ActionsとNetlifyの両方で使用されます）
    - `NETLIFY_AUTH_TOKEN`: Netlify個人アクセストークン
    - `NETLIFY_SITE_ID`: NetlifyサイトのサイトID
+
+注意: `API_KEY`と`OPENAI_API_KEY`は同じOpenAI APIキーを指しますが、異なる場所で使用されます。コードは両方の名前をチェックするので、どちらかの名前で設定すれば動作します。
 
 #### Netlify個人アクセストークンの取得方法
 

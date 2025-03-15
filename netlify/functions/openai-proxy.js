@@ -19,9 +19,9 @@ exports.handler = async function(event, context) {
     const requestBody = JSON.parse(event.body);
     
     // Get the API key from the request headers or environment variable
-    const apiKey = event.headers.authorization 
-      ? event.headers.authorization.replace('Bearer ', '') 
-      : process.env.OPENAI_API_KEY;
+    const apiKey = event.headers.authorization
+      ? event.headers.authorization.replace('Bearer ', '')
+      : process.env.API_KEY || process.env.OPENAI_API_KEY;
     
     if (!apiKey) {
       return {
