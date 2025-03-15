@@ -4,6 +4,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Load chatbot CSS and JS dynamically for all pages
+    loadChatbot();
+    
     // Mobile menu toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.querySelector('.main-nav');
@@ -258,5 +261,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
         });
+    }
+    
+    // Function to load chatbot CSS and JS
+    function loadChatbot() {
+        // Get the base URL for the site
+        const baseUrl = getBaseUrl();
+        
+        // Load chatbot CSS
+        if (!document.querySelector('link[href*="chatbot.css"]')) {
+            const chatbotCss = document.createElement('link');
+            chatbotCss.rel = 'stylesheet';
+            chatbotCss.href = baseUrl + 'assets/css/chatbot.css';
+            document.head.appendChild(chatbotCss);
+        }
+        
+        // Load chatbot JS
+        if (!document.querySelector('script[src*="chatbot.js"]')) {
+            // Wait for CSS to load before loading JS
+            setTimeout(() => {
+                const chatbotJs = document.createElement('script');
+                chatbotJs.type = 'module';
+                chatbotJs.src = baseUrl + 'assets/js/chatbot.js';
+                document.body.appendChild(chatbotJs);
+            }, 300);
+        }
+    }
+    
+    // Function to get the base URL
+    function getBaseUrl() {
+        // Get the current path
+        const path = window.location.pathname;
+        
+        // Count the number of directory levels
+        const pathParts = path.split('/').filter(part => part !== '');
+        
+        // Create the relative path to the root
+        let baseUrl = '';
+        if (pathParts.length > 0) {
+            for (let i = 0; i < pathParts.length; i++) {
+                baseUrl += '../';
+            }
+        }
+        
+        return baseUrl;
     }
 });

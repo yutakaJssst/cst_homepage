@@ -204,9 +204,12 @@ class Chatbot {
             let botResponse;
             
             try {
+                // Get the absolute path to the Netlify function
+                const netlifyFunctionPath = '/api/chatbot';
+                
                 // Call the Netlify function
-                console.log('Calling /.netlify/functions/chatbot');
-                const response = await fetch('/.netlify/functions/chatbot', {
+                console.log('Calling Netlify function:', netlifyFunctionPath);
+                const response = await fetch(netlifyFunctionPath, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

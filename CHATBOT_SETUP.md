@@ -123,6 +123,27 @@ assets/css/chatbot.cssファイルを編集して、チャットボットの外�
 
 OpenAI APIのモデルやパラメータを変更するには、Netlifyの環境変数を更新します。
 
+### チャットボットをすべてのページで利用可能にする
+
+デフォルトでは、チャットボットはトップページ（index.html）でのみ利用可能ですが、すべてのページで利用可能にするための修正が施されています。この修正により、main.jsファイルがチャットボットのCSSとJavaScriptを動的に読み込むようになっています。
+
+特定のページでのみチャットボットを表示したい場合は、assets/js/main.jsファイルのloadChatbot関数を修正して、表示条件を追加できます：
+
+```javascript
+function loadChatbot() {
+    // 特定のページでのみ表示する場合
+    const currentPath = window.location.pathname;
+    const allowedPaths = ['/', '/index.html', '/about/index.html'];
+    
+    if (!allowedPaths.some(path => currentPath.endsWith(path))) {
+        return; // 許可されていないページでは表示しない
+    }
+    
+    // 以下、チャットボットの読み込み処理
+    // ...
+}
+```
+
 ## セキュリティに関する注意
 
 - OpenAI APIキーは常に安全に保管し、公開リポジトリにコミットしないでください。
