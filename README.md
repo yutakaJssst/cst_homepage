@@ -27,9 +27,9 @@ GitHub Actionsでデプロイする場合は、GitHub Secretsを使用できま�
 
 ## デプロイ方法
 
-このプロジェクトは以下の2つの方法でデプロイできます：
+このプロジェクトは以下の3つの方法でデプロイできます：
 
-### 1. Netlify（推奨）
+### 1. Netlify（最も推奨）
 
 Netlifyを使用すると、サーバーレス関数を利用してCORSの問題を回避できます。
 
@@ -60,9 +60,15 @@ Netlifyを使用すると、サーバーレス関数を利用してCORSの問題
 3. 「Site settings」を選択します
 4. 「Site information」セクションに「Site ID」が表示されています
 
-### 2. GitHub Pages
+### 2. GitHub Pages + CORS Proxy（推奨）
 
-GitHub Pagesを使用する場合は、CORSの問題を回避するために以下の方法を使用します：
+GitHub Pagesを使用する場合は、CORSの問題を回避するためにCORSプロキシを使用します。コードは自動的にGitHub Pagesを検出し、CORS Anywhereプロキシを使用します。
+
+注意: CORS Anywhereは無料のサービスで、使用制限があります。本番環境では独自のCORSプロキシを設定することをお勧めします。
+
+### 3. GitHub Pages（基本）
+
+GitHub Pagesのみを使用する場合は、CORSの問題を回避するために以下の方法を使用します：
 
 #### ローカル開発の場合
 

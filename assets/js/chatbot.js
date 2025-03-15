@@ -124,13 +124,21 @@ class Chatbot {
             try {
                 console.log('Attempting to call OpenAI API with key:', CONFIG.OPENAI_API_KEY ? 'Key exists' : 'No key found');
                 
-                // Determine if we're running on localhost or on a deployed site
+                // Determine where we're running
                 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const isGitHubPages = window.location.hostname.includes('github.io');
                 
-                // Use direct API call for localhost, proxy for deployed site
-                const apiUrl = isLocalhost
-                    ? 'https://api.openai.com/v1/chat/completions'
-                    : '/api/openai-proxy';
+                let apiUrl;
+                if (isLocalhost) {
+                    // Use direct API call for localhost
+                    apiUrl = 'https://api.openai.com/v1/chat/completions';
+                } else if (isGitHubPages) {
+                    // Use CORS proxy for GitHub Pages
+                    apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions';
+                } else {
+                    // Use Netlify function for other deployed sites
+                    apiUrl = '/api/openai-proxy';
+                }
                 
                 console.log('Using API URL:', apiUrl);
                 
