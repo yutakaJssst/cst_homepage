@@ -1,0 +1,12 @@
+{
+  "name": "cst-homepage",
+  "version": "1.0.0",
+  "description": "日本大学理工学部ホームページ",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "scripts": {
+    "start": "echo 'No start script defined'"
+  },
+  "private": true
+}

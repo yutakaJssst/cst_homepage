@@ -62,6 +62,33 @@
 
 ## トラブルシューティング
 
+### 依存関係のエラーが発生する場合
+
+Netlifyでデプロイ時に「A Netlify Function is using "node-fetch" but that dependency has not been installed yet」のようなエラーが表示される場合は、以下の方法で解決できます：
+
+1. **プロジェクトのルートにpackage.jsonを作成する（推奨）**:
+   ```json
+   {
+     "name": "cst-homepage",
+     "version": "1.0.0",
+     "dependencies": {
+       "node-fetch": "^2.6.7"
+     }
+   }
+   ```
+
+2. **netlify.tomlにプラグインを追加する**:
+   ```toml
+   [[plugins]]
+   package = "@netlify/plugin-functions-install-core"
+   ```
+
+3. **ビルドコマンドでインストールする**:
+   ビルド設定で、以下のようなビルドコマンドを設定します：
+   ```
+   cd netlify/functions && npm install && cd ../..
+   ```
+
 ### チャットボットが応答しない場合
 
 1. **環境変数の確認**: NetlifyダッシュボードでOPENAI_API_KEYが正しく設定されているか確認します。
