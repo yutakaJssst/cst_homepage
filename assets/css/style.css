@@ -163,7 +163,7 @@ header {
 }
 
 .logo img {
-  height: 80px;
+  height: 100px;
   margin-right: 1rem;
 }
 
@@ -229,11 +229,13 @@ nav {
   min-width: 200px;
   box-shadow: var(--shadow);
   z-index: 1;
+  padding: 0.5rem 0;
+  flex-direction: column;
 }
 
 .dropdown-content a {
   color: var(--dark-gray) !important;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   display: block;
   border-bottom: 1px solid var(--medium-gray);
 }
@@ -243,7 +245,29 @@ nav {
 }
 
 .dropdown:hover .dropdown-content {
-  display: block;
+  display: flex;
+}
+
+/* Hide dropdown content when not hovering */
+.dropdown-content {
+  display: none;
+}
+
+.dropdown-group {
+  margin-bottom: 0.5rem;
+}
+
+.dropdown-group h4 {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem 0.25rem;
+  margin: 0;
+  border-bottom: none;
+  background-color: var(--light-gray);
+}
+
+.dropdown-group a {
+  padding-left: 1.5rem;
 }
 
 /* Mobile Menu */
@@ -723,7 +747,7 @@ input:focus, textarea:focus, select:focus {
   }
   
   .logo img {
-    height: 55px;
+    height: 70px;
   }
   
   .logo-text .university-name {

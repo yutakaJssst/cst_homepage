@@ -64,35 +64,38 @@ document.addEventListener('DOMContentLoaded', function() {
         yearElement.textContent = new Date().getFullYear();
     }
     
-    // Dropdown menus for touch devices
+    // Dropdown menus for all devices
     const dropdowns = document.querySelectorAll('.dropdown');
     
-    if (dropdowns.length > 0 && 'ontouchstart' in window) {
-        dropdowns.forEach(dropdown => {
-            const link = dropdown.querySelector('a');
-            const content = dropdown.querySelector('.dropdown-content');
-            
-            if (link && content) {
-                link.addEventListener('click', function(e) {
-                    // Check if this is a direct click on the dropdown link
-                    if (e.target === link) {
-                        e.preventDefault();
-                        
-                        // Close all other dropdowns
-                        dropdowns.forEach(otherDropdown => {
-                            if (otherDropdown !== dropdown) {
-                                otherDropdown.querySelector('.dropdown-content').style.display = 'none';
-                            }
-                        });
-                        
-                        // Toggle this dropdown
-                        content.style.display = content.style.display === 'block' ? 'none' : 'block';
-                    }
-                });
-            }
-        });
+    if (dropdowns.length > 0) {
+        // For touch devices
+        if ('ontouchstart' in window) {
+            dropdowns.forEach(dropdown => {
+                const link = dropdown.querySelector('a');
+                const content = dropdown.querySelector('.dropdown-content');
+                
+                if (link && content) {
+                    link.addEventListener('click', function(e) {
+                        // Check if this is a direct click on the dropdown link
+                        if (e.target === link) {
+                            e.preventDefault();
+                            
+                            // Close all other dropdowns
+                            dropdowns.forEach(otherDropdown => {
+                                if (otherDropdown !== dropdown) {
+                                    otherDropdown.querySelector('.dropdown-content').style.display = 'none';
+                                }
+                            });
+                            
+                            // Toggle this dropdown
+                            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                        }
+                    });
+                }
+            });
+        }
         
-        // Close dropdowns when clicking outside
+        // For all devices - close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.dropdown')) {
                 dropdowns.forEach(dropdown => {
