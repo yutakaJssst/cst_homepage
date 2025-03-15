@@ -131,14 +131,14 @@ class Chatbot {
                     throw new Error('Invalid API key');
                 }
                 
-                // For GitHub Pages, we'll use a different approach
-                // Instead of trying to call the API, we'll provide a static response
-                // This is because CORS Anywhere has usage restrictions and may not work reliably
+                // Always use static responses for GitHub Pages and for specific questions
                 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 const isGitHubPages = window.location.hostname.includes('github.io');
+                const userMessageLower = message.toLowerCase();
                 
-                if (isGitHubPages) {
-                    console.log('Running on GitHub Pages, using static response');
+                // Check if the user is asking about departments
+                if (isGitHubPages || userMessageLower.includes('学科') || userMessageLower.includes('専攻') || userMessageLower.includes('コース')) {
+                    console.log('Using static response for department question');
                     botResponse = '日本大学理工学部には、以下の学科があります：\n\n' +
                         '1. 土木工学科\n' +
                         '2. 交通システム工学科\n' +
@@ -156,7 +156,7 @@ class Chatbot {
                         '14. 数学科\n\n' +
                         'それぞれの学科では、専門的な知識や技術を学び、将来の社会で活躍できる技術者や研究者を育成しています。\n\n' +
                         '※注意: GitHub Pages環境ではAPIキーの制限により、事前に用意された回答のみ表示されます。完全な機能を利用するには、Netlifyでのデプロイをご検討ください。';
-                    throw new Error('GitHub Pages environment - using static response');
+                    throw new Error('Using static response');
                 }
                 
                 let apiUrl;
@@ -206,8 +206,8 @@ class Chatbot {
                     botResponse = '申し訳ありませんが、APIキーに問題があるようです。管理者にお問い合わせください。';
                 } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
                     botResponse = 'ネットワークエラーが発生しました。CORSポリシーによりAPIへのアクセスがブロックされている可能性があります。';
-                } else if (error.message.includes('CORS')) {
-                    botResponse = 'CORSエラーが発生しました。サーバー側の設定を確認してください。';
+                } else if (error.message.includes('CORS') || error.message.includes('Unexpected token')) {
+                    botResponse = 'CORSエラーが発生しました。GitHub Pages環境では、APIへの直接アクセスができないため、事前に用意された回答のみ表示されます。';
                 } else {
                     botResponse = `すみません、エラーが発生しました：${error.message}`;
                 }
