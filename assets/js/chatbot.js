@@ -183,21 +183,9 @@ class Chatbot {
         const loadingIndicator = this.addLoadingIndicator();
         
         const userMessageLower = message.toLowerCase();
+        console.log('User message:', message);
         
         try {
-            // Check for static responses first
-            const staticResponse = this.getStaticResponse(userMessageLower);
-            
-            if (staticResponse) {
-                // Use static response
-                setTimeout(() => {
-                    this.removeLoadingIndicator();
-                    this.addMessage('bot', staticResponse);
-                    this.isWaitingForResponse = false;
-                }, 500); // Small delay to make it feel more natural
-                return;
-            }
-            
             // Prepare conversation history
             const conversationHistory = this.messages
                 .slice(-5) // Get last 5 messages for context
@@ -212,31 +200,54 @@ class Chatbot {
                 content: 'このチャットアシスタントは、日本大学理工学部のホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
             });
 
-            // Call the Netlify function
-            const response = await fetch('/.netlify/functions/chatbot', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    messages: conversationHistory
-                })
-            });
+            console.log('Attempting API call to Netlify function');
+            let botResponse;
+            
+            try {
+                // Call the Netlify function
+                console.log('Calling /.netlify/functions/chatbot');
+                const response = await fetch('/.netlify/functions/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: conversationHistory
+                    })
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || `API request failed with status ${response.status}`);
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API Error:', errorText);
+                    throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+                }
+
+                const data = await response.json();
+                console.log('API response received successfully');
+                botResponse = data.choices[0].message.content;
+            } catch (apiError) {
+                console.error('API call failed:', apiError);
+                
+                // Fallback to static responses if API call fails
+                const staticResponse = this.getStaticResponse(userMessageLower);
+                
+                if (staticResponse) {
+                    console.log('Using static response as fallback');
+                    botResponse = staticResponse;
+                } else {
+                    console.log('No static response available, using generic error message');
+                    botResponse = 'すみません、現在APIサーバーに接続できません。しばらく経ってからもう一度お試しください。';
+                }
             }
-
-            const data = await response.json();
-            const botResponse = data.choices[0].message.content;
             
             // Remove loading indicator and add bot response
             this.removeLoadingIndicator();
             this.addMessage('bot', botResponse);
             
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Main error handler:', error);
             
             // Remove loading indicator
             this.removeLoadingIndicator();
@@ -246,18 +257,31 @@ class Chatbot {
             
             if (error.message.includes('API key')) {
                 errorMessage = '申し訳ありませんが、APIキーに問題があるようです。管理者にお問い合わせください。';
+                console.error('API key error detected');
             } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
                 errorMessage = 'ネットワークエラーが発生しました。インターネット接続を確認してください。';
+                console.error('Network error detected');
             } else if (error.message.includes('CORS')) {
                 errorMessage = 'CORSエラーが発生しました。サーバー設定に問題があります。管理者にお問い合わせください。';
+                console.error('CORS error detected');
             } else {
                 errorMessage = 'すみません、エラーが発生しました。しばらく経ってからもう一度お試しください。';
+                console.error('Unknown error type');
             }
             
-            // Add fallback response with departments info
-            const fallbackInfo = '日本大学理工学部には、土木工学科、交通システム工学科、建築学科、海洋建築工学科、まちづくり工学科、機械工学科、精密機械工学科、航空宇宙工学科、電気工学科、電子工学科、応用情報工学科、物質応用化学科、物理学科、数学科の14学科があります。';
+            // Try to get a static response as fallback
+            const staticResponse = this.getStaticResponse(userMessageLower);
             
-            this.addMessage('bot', `${errorMessage}\n\n${fallbackInfo}`);
+            if (staticResponse) {
+                console.log('Using static response in main error handler');
+                this.addMessage('bot', staticResponse);
+            } else {
+                console.log('No static response available, using error message');
+                // Add fallback response with departments info
+                const fallbackInfo = '日本大学理工学部には、土木工学科、交通システム工学科、建築学科、海洋建築工学科、まちづくり工学科、機械工学科、精密機械工学科、航空宇宙工学科、電気工学科、電子工学科、応用情報工学科、物質応用化学科、物理学科、数学科の14学科があります。';
+                
+                this.addMessage('bot', `${errorMessage}\n\n${fallbackInfo}`);
+            }
         } finally {
             this.isWaitingForResponse = false;
         }
