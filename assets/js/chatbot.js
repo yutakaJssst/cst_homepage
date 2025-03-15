@@ -242,13 +242,12 @@ class Chatbot {
                 }
                 let apiUrl;
                 if (isLocalhost) {
-                    // Use direct API call for localhost
                     apiUrl = 'https://api.openai.com/v1/chat/completions';
+                } else if (isGitHubPages) {
+                    apiUrl = 'https://yutatest.netlify.app/.netlify/functions/openai-proxy';
                 } else {
-                    // Always use absolute URL for non-localhost environments
                     apiUrl = window.location.origin + '/.netlify/functions/openai-proxy';
                 }
-                console.log('Using API URL:', apiUrl);
                 console.log('Using API URL:', apiUrl);
                 
                 // Call ChatGPT API (directly or via proxy)
