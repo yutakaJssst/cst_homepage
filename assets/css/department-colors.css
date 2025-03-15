@@ -1,0 +1,472 @@
+/*
+ * Department-specific color schemes based on RGB values
+ */
+
+/* 土木工学科 (Civil Engineering) */
+.dept-civil {
+  --primary-color: #783c23; /* RGB: 120, 60, 35 */
+  --secondary-color: #63321d;
+}
+
+/* 交通システム工学科 (Transportation Systems) */
+.dept-transportation {
+  --primary-color: #c8141e; /* RGB: 200, 20, 30 */
+  --secondary-color: #a71119;
+}
+
+/* 建築学科 (Architecture) */
+.dept-architecture {
+  --primary-color: #f5af91; /* RGB: 245, 175, 145 */
+  --secondary-color: #f09a77;
+}
+
+/* 海洋建築工学科 (Ocean Architecture) */
+.dept-ocean-architecture {
+  --primary-color: #0a3287; /* RGB: 10, 50, 135 */
+  --secondary-color: #082a70;
+}
+
+/* まちづくり工学科 (Urban Engineering) */
+.dept-urban-engineering {
+  --primary-color: #f5961e; /* RGB: 245, 150, 30 */
+  --secondary-color: #e08616;
+}
+
+/* 機械工学科 (Mechanical) */
+.dept-mechanical {
+  --primary-color: #a5b9c3; /* RGB: 165, 185, 195 */
+  --secondary-color: #8fa6b2;
+}
+
+/* 精密機械工学科 (Precision Mechanical) */
+.dept-precision-mechanical {
+  --primary-color: #2d69af; /* RGB: 45, 105, 175 */
+  --secondary-color: #255994;
+}
+
+/* 航空宇宙工学科 (Aerospace) */
+.dept-aerospace {
+  --primary-color: #5fb9e6; /* RGB: 95, 185, 230 */
+  --secondary-color: #4aa7d6;
+}
+
+/* 電気工学科 (Electrical) */
+.dept-electrical {
+  --primary-color: #f0dc00; /* RGB: 240, 220, 0 */
+  --secondary-color: #d6c500;
+}
+
+/* 電子工学科 (Electronics) */
+.dept-electronics {
+  --primary-color: #008741; /* RGB: 0, 135, 65 */
+  --secondary-color: #007236;
+}
+
+/* 応用情報工学科 (Applied Information) */
+.dept-applied-info {
+  --primary-color: #91377d; /* RGB: 145, 55, 125 */
+  --secondary-color: #7a2e69;
+}
+
+/* 物質応用化学科 (Materials) */
+.dept-materials {
+  --primary-color: #00aa73; /* RGB: 0, 170, 115 */
+  --secondary-color: #009060;
+}
+
+/* 物理学科 (Physics) */
+.dept-physics {
+  --primary-color: #f08c8c; /* RGB: 240, 140, 140 */
+  --secondary-color: #eb7575;
+}
+
+/* 数学科 (Mathematics) */
+.dept-mathematics {
+  --primary-color: #644696; /* RGB: 100, 70, 150 */
+  --secondary-color: #533b7e;
+}
+
+/* 学科ごとのリンクの色設定 */
+/* 建設・都市・デザイン系 */
+.dropdown-content a[href*="civil.html"] {
+  color: #783c23 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #783c23 !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="transportation.html"] {
+  color: #c8141e !important;
+  font-weight: bold !important;
+  border-left: 3px solid #c8141e !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="architecture.html"] {
+  color: #f5af91 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #f5af91 !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="ocean-architecture.html"] {
+  color: #0a3287 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #0a3287 !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="urban-engineering.html"] {
+  color: #f5961e !important;
+  font-weight: bold !important;
+  border-left: 3px solid #f5961e !important;
+  padding-left: 10px !important;
+}
+
+/* 機械・システム系 */
+.dropdown-content a[href*="mechanical.html"] {
+  color: #a5b9c3 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #a5b9c3 !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="precision-mechanical.html"] {
+  color: #2d69af !important;
+  font-weight: bold !important;
+  border-left: 3px solid #2d69af !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="aerospace.html"] {
+  color: #5fb9e6 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #5fb9e6 !important;
+  padding-left: 10px !important;
+}
+
+/* 電気・デジタル系 */
+.dropdown-content a[href*="electrical.html"] {
+  color: #f0dc00 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #f0dc00 !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="electronics.html"] {
+  color: #008741 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #008741 !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="applied-info.html"] {
+  color: #91377d !important;
+  font-weight: bold !important;
+  border-left: 3px solid #91377d !important;
+  padding-left: 10px !important;
+}
+
+/* 理学・サイエンス系 */
+.dropdown-content a[href*="materials.html"] {
+  color: #00aa73 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #00aa73 !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="physics.html"] {
+  color: #f08c8c !important;
+  font-weight: bold !important;
+  border-left: 3px solid #f08c8c !important;
+  padding-left: 10px !important;
+}
+
+.dropdown-content a[href*="mathematics.html"] {
+  color: #644696 !important;
+  font-weight: bold !important;
+  border-left: 3px solid #644696 !important;
+  padding-left: 10px !important;
+}
+
+/* ホバー時の効果 */
+.dropdown-content a[href*="civil.html"]:hover {
+  background-color: rgba(120, 60, 35, 0.1) !important;
+}
+
+.dropdown-content a[href*="transportation.html"]:hover {
+  background-color: rgba(200, 20, 30, 0.1) !important;
+}
+
+.dropdown-content a[href*="architecture.html"]:hover {
+  background-color: rgba(245, 175, 145, 0.1) !important;
+}
+
+.dropdown-content a[href*="ocean-architecture.html"]:hover {
+  background-color: rgba(10, 50, 135, 0.1) !important;
+}
+
+.dropdown-content a[href*="urban-engineering.html"]:hover {
+  background-color: rgba(245, 150, 30, 0.1) !important;
+}
+
+.dropdown-content a[href*="mechanical.html"]:hover {
+  background-color: rgba(165, 185, 195, 0.1) !important;
+}
+
+.dropdown-content a[href*="precision-mechanical.html"]:hover {
+  background-color: rgba(45, 105, 175, 0.1) !important;
+}
+
+.dropdown-content a[href*="aerospace.html"]:hover {
+  background-color: rgba(95, 185, 230, 0.1) !important;
+}
+
+.dropdown-content a[href*="electrical.html"]:hover {
+  background-color: rgba(240, 220, 0, 0.1) !important;
+}
+
+.dropdown-content a[href*="electronics.html"]:hover {
+  background-color: rgba(0, 135, 65, 0.1) !important;
+}
+
+.dropdown-content a[href*="applied-info.html"]:hover {
+  background-color: rgba(145, 55, 125, 0.1) !important;
+}
+
+.dropdown-content a[href*="materials.html"]:hover {
+  background-color: rgba(0, 170, 115, 0.1) !important;
+}
+
+.dropdown-content a[href*="physics.html"]:hover {
+  background-color: rgba(240, 140, 140, 0.1) !important;
+}
+
+.dropdown-content a[href*="mathematics.html"]:hover {
+  background-color: rgba(100, 70, 150, 0.1) !important;
+}
+
+/* 学科ごとのタブの色設定 */
+.main-nav .dropdown-content a[href*="civil.html"] {
+  color: #783c23 !important;
+  font-weight: bold !important;
+  background-color: rgba(120, 60, 35, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="transportation.html"] {
+  color: #c8141e !important;
+  font-weight: bold !important;
+  background-color: rgba(200, 20, 30, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="architecture.html"] {
+  color: #f5af91 !important;
+  font-weight: bold !important;
+  background-color: rgba(245, 175, 145, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="ocean-architecture.html"] {
+  color: #0a3287 !important;
+  font-weight: bold !important;
+  background-color: rgba(10, 50, 135, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="urban-engineering.html"] {
+  color: #f5961e !important;
+  font-weight: bold !important;
+  background-color: rgba(245, 150, 30, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="mechanical.html"] {
+  color: #a5b9c3 !important;
+  font-weight: bold !important;
+  background-color: rgba(165, 185, 195, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="precision-mechanical.html"] {
+  color: #2d69af !important;
+  font-weight: bold !important;
+  background-color: rgba(45, 105, 175, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="aerospace.html"] {
+  color: #5fb9e6 !important;
+  font-weight: bold !important;
+  background-color: rgba(95, 185, 230, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="electrical.html"] {
+  color: #f0dc00 !important;
+  font-weight: bold !important;
+  background-color: rgba(240, 220, 0, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="electronics.html"] {
+  color: #008741 !important;
+  font-weight: bold !important;
+  background-color: rgba(0, 135, 65, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="applied-info.html"] {
+  color: #91377d !important;
+  font-weight: bold !important;
+  background-color: rgba(145, 55, 125, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="materials.html"] {
+  color: #00aa73 !important;
+  font-weight: bold !important;
+  background-color: rgba(0, 170, 115, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="physics.html"] {
+  color: #f08c8c !important;
+  font-weight: bold !important;
+  background-color: rgba(240, 140, 140, 0.1) !important;
+}
+
+.main-nav .dropdown-content a[href*="mathematics.html"] {
+  color: #644696 !important;
+  font-weight: bold !important;
+  background-color: rgba(100, 70, 150, 0.1) !important;
+}
+
+/* 学科カードのスタイル設定 */
+.card h3.card-title:has(+ p + ul + a[href*="civil.html"]),
+.card a[href*="civil.html"].btn {
+  color: #783c23 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="transportation.html"]),
+.card a[href*="transportation.html"].btn {
+  color: #c8141e !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="architecture.html"]),
+.card a[href*="architecture.html"].btn {
+  color: #f5af91 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="ocean-architecture.html"]),
+.card a[href*="ocean-architecture.html"].btn,
+.card h3.card-title:has(+ p + ul + a[href*="ocean.html"]),
+.card a[href*="ocean.html"].btn {
+  color: #0a3287 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="urban-engineering.html"]),
+.card a[href*="urban-engineering.html"].btn,
+.card h3.card-title:has(+ p + ul + a[href*="urban.html"]),
+.card a[href*="urban.html"].btn {
+  color: #f5961e !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="mechanical.html"]),
+.card a[href*="mechanical.html"].btn {
+  color: #a5b9c3 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="precision-mechanical.html"]),
+.card a[href*="precision-mechanical.html"].btn,
+.card h3.card-title:has(+ p + ul + a[href*="precision.html"]),
+.card a[href*="precision.html"].btn {
+  color: #2d69af !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="aerospace.html"]),
+.card a[href*="aerospace.html"].btn {
+  color: #5fb9e6 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="electrical.html"]),
+.card a[href*="electrical.html"].btn {
+  color: #f0dc00 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="electronics.html"]),
+.card a[href*="electronics.html"].btn {
+  color: #008741 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="applied-info.html"]),
+.card a[href*="applied-info.html"].btn,
+.card h3.card-title:has(+ p + ul + a[href*="informatics.html"]),
+.card a[href*="informatics.html"].btn {
+  color: #91377d !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="materials.html"]),
+.card a[href*="materials.html"].btn {
+  color: #00aa73 !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="physics.html"]),
+.card a[href*="physics.html"].btn {
+  color: #f08c8c !important;
+}
+
+.card h3.card-title:has(+ p + ul + a[href*="mathematics.html"]),
+.card a[href*="mathematics.html"].btn {
+  color: #644696 !important;
+}
+
+/* カードのボーダー色設定 */
+.card:has(a[href*="civil.html"]) {
+  border-top: 4px solid #783c23 !important;
+}
+
+.card:has(a[href*="transportation.html"]) {
+  border-top: 4px solid #c8141e !important;
+}
+
+.card:has(a[href*="architecture.html"]) {
+  border-top: 4px solid #f5af91 !important;
+}
+
+.card:has(a[href*="ocean-architecture.html"]),
+.card:has(a[href*="ocean.html"]) {
+  border-top: 4px solid #0a3287 !important;
+}
+
+.card:has(a[href*="urban-engineering.html"]),
+.card:has(a[href*="urban.html"]) {
+  border-top: 4px solid #f5961e !important;
+}
+
+.card:has(a[href*="mechanical.html"]) {
+  border-top: 4px solid #a5b9c3 !important;
+}
+
+.card:has(a[href*="precision-mechanical.html"]),
+.card:has(a[href*="precision.html"]) {
+  border-top: 4px solid #2d69af !important;
+}
+
+.card:has(a[href*="aerospace.html"]) {
+  border-top: 4px solid #5fb9e6 !important;
+}
+
+.card:has(a[href*="electrical.html"]) {
+  border-top: 4px solid #f0dc00 !important;
+}
+
+.card:has(a[href*="electronics.html"]) {
+  border-top: 4px solid #008741 !important;
+}
+
+.card:has(a[href*="applied-info.html"]),
+.card:has(a[href*="informatics.html"]) {
+  border-top: 4px solid #91377d !important;
+}
+
+.card:has(a[href*="materials.html"]) {
+  border-top: 4px solid #00aa73 !important;
+}
+
+.card:has(a[href*="physics.html"]) {
+  border-top: 4px solid #f08c8c !important;
+}
+
+.card:has(a[href*="mathematics.html"]) {
+  border-top: 4px solid #644696 !important;
+}
