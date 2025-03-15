@@ -76,9 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (link && content) {
                     link.addEventListener('click', function(e) {
+                        // Always prevent default for dropdown links
+                        e.preventDefault();
+                        
                         // Check if this is a direct click on the dropdown link
                         if (e.target === link) {
-                            e.preventDefault();
                             
                             // Close all other dropdowns
                             dropdowns.forEach(otherDropdown => {
@@ -88,7 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                             
                             // Toggle this dropdown
-                            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                            if (content.style.display === 'flex' || content.style.display === 'block') {
+                                content.style.display = 'none';
+                            } else {
+                                content.style.display = 'flex';
+                            }
                         }
                     });
                 }

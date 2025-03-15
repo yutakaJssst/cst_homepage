@@ -163,8 +163,8 @@ header {
 }
 
 .logo img {
-  height: 100px;
-  margin-right: 1rem;
+   height: 150px;
+   margin-right: 1rem;
 }
 
 .logo-text {
@@ -227,6 +227,8 @@ nav {
   position: absolute;
   background-color: var(--white);
   min-width: 200px;
+  max-height: 500px;
+  overflow-y: auto;
   box-shadow: var(--shadow);
   z-index: 1;
   padding: 0.5rem 0;
@@ -246,6 +248,8 @@ nav {
 
 .dropdown:hover .dropdown-content {
   display: flex;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 /* Hide dropdown content when not hovering */
@@ -305,6 +309,8 @@ nav {
     position: static;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: none;
+    max-height: 300px;
+    overflow-y: auto;
   }
 
   .dropdown-content a {
@@ -747,7 +753,7 @@ input:focus, textarea:focus, select:focus {
   }
   
   .logo img {
-    height: 70px;
+    height: 105px;
   }
   
   .logo-text .university-name {
