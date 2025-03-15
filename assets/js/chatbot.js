@@ -246,8 +246,8 @@ class Chatbot {
                     // Use direct API call for localhost
                     apiUrl = 'https://api.openai.com/v1/chat/completions';
                 } else if (isNetlify) {
-                    // Use Netlify function for Netlify sites with absolute URL
-                    const netlifyUrl = window.location.origin + '/.netlify/functions/openai-proxy';
+                    // Use Netlify function via redirect defined in netlify.toml
+                    const netlifyUrl = window.location.origin + '/api/openai-proxy';
                     apiUrl = netlifyUrl;
                     console.log('Using Netlify function URL:', netlifyUrl);
                 } else {
