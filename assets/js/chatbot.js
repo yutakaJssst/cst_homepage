@@ -123,10 +123,6 @@ class Chatbot {
                 role: 'system',
                 content: 'このチャットアシスタントは、CSTホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
             });
-            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const isGitHubPages = window.location.hostname.includes('github.io');
-            const isNetlify = window.location.hostname.includes('netlify.app');
-            const userMessageLower = message.toLowerCase();
 
             let botResponse;
             
@@ -249,11 +245,10 @@ class Chatbot {
                     // Use direct API call for localhost
                     apiUrl = 'https://api.openai.com/v1/chat/completions';
                 } else {
-                    // Use the redirect defined in netlify.toml for all non-localhost environments
-                    apiUrl = '/api/openai-proxy';
+                    // Always use absolute URL for non-localhost environments
+                    apiUrl = window.location.origin + '/.netlify/functions/openai-proxy';
                 }
                 console.log('Using API URL:', apiUrl);
-                
                 console.log('Using API URL:', apiUrl);
                 
                 // Call ChatGPT API (directly or via proxy)
