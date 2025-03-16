@@ -7,6 +7,11 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+  force = true
+  [redirects.headers]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
 
 # Add CORS headers for the functions
 [[headers]]
@@ -15,3 +20,7 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Headers = "Content-Type, Authorization"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+
+# Add plugin to install dependencies for functions
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"

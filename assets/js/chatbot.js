@@ -200,22 +200,24 @@ class Chatbot {
                 content: 'このチャットアシスタントは、日本大学理工学部のホームページに掲載されている情報に基づいて質問に回答します。ホームページに記載された内容（入学案内、学部詳細、カリキュラム、キャンパスライフ等）を参照します。'
             });
 
-            console.log('Attempting API call to Netlify function');
+            console.log('Attempting API call to OpenAI proxy');
             let botResponse;
             
             try {
-                // Get the absolute path to the Netlify function
-                const netlifyFunctionPath = '/api/chatbot';
+                // Try using the openai-proxy function instead of chatbot function
+                const proxyPath = '/api/openai-proxy';
                 
-                // Call the Netlify function
-                console.log('Calling Netlify function:', netlifyFunctionPath);
-                const response = await fetch(netlifyFunctionPath, {
+                console.log('Calling OpenAI proxy:', proxyPath);
+                const response = await fetch(proxyPath, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        messages: conversationHistory
+                        model: 'gpt-3.5-turbo',
+                        messages: conversationHistory,
+                        max_tokens: 150,
+                        temperature: 0.7
                     })
                 });
 
@@ -233,15 +235,43 @@ class Chatbot {
             } catch (apiError) {
                 console.error('API call failed:', apiError);
                 
-                // Fallback to static responses if API call fails
-                const staticResponse = this.getStaticResponse(userMessageLower);
-                
-                if (staticResponse) {
-                    console.log('Using static response as fallback');
-                    botResponse = staticResponse;
-                } else {
-                    console.log('No static response available, using generic error message');
-                    botResponse = 'すみません、現在APIサーバーに接続できません。しばらく経ってからもう一度お試しください。';
+                // Try fallback to chatbot function if openai-proxy fails
+                try {
+                    console.log('Trying fallback to chatbot function');
+                    const netlifyFunctionPath = '/api/chatbot';
+                    
+                    const response = await fetch(netlifyFunctionPath, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            messages: conversationHistory
+                        })
+                    });
+                    
+                    console.log('Fallback response status:', response.status);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Fallback API request failed with status ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Fallback API response received successfully');
+                    botResponse = data.choices[0].message.content;
+                } catch (fallbackError) {
+                    console.error('Fallback API call failed:', fallbackError);
+                    
+                    // Fallback to static responses if both API calls fail
+                    const staticResponse = this.getStaticResponse(userMessageLower);
+                    
+                    if (staticResponse) {
+                        console.log('Using static response as fallback');
+                        botResponse = staticResponse;
+                    } else {
+                        console.log('No static response available, using generic error message');
+                        botResponse = 'すみません、現在APIサーバーに接続できません。しばらく経ってからもう一度お試しください。';
+                    }
                 }
             }
             

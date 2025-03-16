@@ -6,7 +6,8 @@
     "node-fetch": "^2.6.7"
   },
   "scripts": {
-    "start": "echo 'No start script defined'"
+    "start": "echo 'No start script defined'",
+    "build": "cd netlify/functions && npm install"
   },
   "private": true
 }
